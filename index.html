@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>活用 Conjugation Practice</title>
+  <meta name="description" content="Practice Japanese verb and adjective conjugation: plain, polite, past, negative, honorific and humble forms.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-jp">活用</span> Conjugation Practice</div>
+    <nav class="tabs" role="tablist">
+      <button class="tab active" data-view="practice" role="tab">Practice</button>
+      <button class="tab" data-view="list" role="tab">Word list</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ================= Practice ================= -->
+    <section id="view-practice" class="view">
+      <div class="practice-layout">
+        <div class="card quiz" id="quiz">
+          <div class="stats">
+            <span>Correct <b id="stat-correct">0</b> / <b id="stat-total">0</b></span>
+            <span>Streak <b id="stat-streak">0</b></span>
+            <span>Best <b id="stat-best">0</b></span>
+          </div>
+
+          <div class="word-tags" id="word-tags"></div>
+          <div class="word" id="word" lang="ja"></div>
+          <div class="meaning" id="meaning"></div>
+
+          <div class="target" id="target"></div>
+
+          <form id="answer-form" autocomplete="off">
+            <input id="answer" lang="ja" type="text" placeholder="答え — type in romaji or kana"
+                   autocapitalize="off" autocorrect="off" spellcheck="false">
+          </form>
+
+          <div class="feedback" id="feedback" aria-live="polite"></div>
+
+          <div class="quiz-actions">
+            <button class="btn ghost" id="btn-skip" type="button">Skip / show answer</button>
+            <button class="btn ghost" id="btn-table" type="button">Conjugation table</button>
+            <button class="btn primary" id="btn-next" type="button">Check</button>
+          </div>
+          <p class="hint">Press <kbd>Enter</kbd> to check, then <kbd>Enter</kbd> again for the next word. Romaji is converted to kana as you type.</p>
+        </div>
+
+        <aside class="card settings" id="settings">
+          <h2>Settings</h2>
+
+          <fieldset>
+            <legend>Word types</legend>
+            <label><input type="checkbox" data-set="types" value="godan" checked> Godan (う-verbs)</label>
+            <label><input type="checkbox" data-set="types" value="ichidan" checked> Ichidan (る-verbs)</label>
+            <label><input type="checkbox" data-set="types" value="irregular" checked> Irregular (する・来る)</label>
+            <label><input type="checkbox" data-set="types" value="suru" checked> する verbs (勉強する…)</label>
+            <label><input type="checkbox" data-set="types" value="i" checked> い-adjectives</label>
+            <label><input type="checkbox" data-set="types" value="na" checked> な-adjectives</label>
+          </fieldset>
+
+          <fieldset>
+            <legend>Transitivity (verbs)</legend>
+            <label><input type="radio" name="trans" data-set="trans" value="all" checked> All verbs</label>
+            <label><input type="radio" name="trans" data-set="trans" value="t"> Transitive (他動詞) only</label>
+            <label><input type="radio" name="trans" data-set="trans" value="i"> Intransitive (自動詞) only</label>
+            <label><input type="radio" name="trans" data-set="trans" value="pair"> Transitive/intransitive pairs</label>
+          </fieldset>
+
+          <fieldset>
+            <legend>Tense</legend>
+            <label><input type="checkbox" data-set="tenses" value="present" checked> Present (non-past)</label>
+            <label><input type="checkbox" data-set="tenses" value="past" checked> Past</label>
+            <label><input type="checkbox" data-set="tenses" value="te"> て-form</label>
+          </fieldset>
+
+          <fieldset>
+            <legend>Polarity</legend>
+            <label><input type="checkbox" data-set="pol" value="aff" checked> Affirmative</label>
+            <label><input type="checkbox" data-set="pol" value="neg" checked> Negative</label>
+          </fieldset>
+
+          <fieldset>
+            <legend>Formality</legend>
+            <label><input type="checkbox" data-set="formal" value="plain" checked> Plain (だ・る)</label>
+            <label><input type="checkbox" data-set="formal" value="polite" checked> Polite (です・ます)</label>
+          </fieldset>
+
+          <fieldset>
+            <legend>Keigo (verbs)</legend>
+            <label><input type="checkbox" data-set="keigo" value="none" checked> Regular</label>
+            <label><input type="checkbox" data-set="keigo" value="hon"> Honorific 尊敬語</label>
+            <label><input type="checkbox" data-set="keigo" value="hum"> Humble 謙譲語</label>
+          </fieldset>
+
+          <fieldset>
+            <legend>Display</legend>
+            <label><input type="checkbox" data-set="furigana" checked> Show furigana</label>
+            <label><input type="checkbox" data-set="english" checked> Show English meaning</label>
+          </fieldset>
+
+          <p class="pool-size" id="pool-size"></p>
+          <button class="btn ghost small" id="btn-reset-stats" type="button">Reset stats</button>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ================= Word list ================= -->
+    <section id="view-list" class="view" hidden>
+      <div class="card">
+        <div class="list-controls">
+          <input id="list-search" type="search" placeholder="Search kanji, kana or English…">
+          <div class="chips" id="list-filter">
+            <button class="chip active" data-f="all">All</button>
+            <button class="chip" data-f="godan">Godan</button>
+            <button class="chip" data-f="ichidan">Ichidan</button>
+            <button class="chip" data-f="irregular">Irregular</button>
+            <button class="chip" data-f="suru">する verbs</button>
+            <button class="chip" data-f="pair">Trans./intrans. pairs</button>
+            <button class="chip" data-f="i">い-adj</button>
+            <button class="chip" data-f="na">な-adj</button>
+          </div>
+        </div>
+        <p class="list-count" id="list-count"></p>
+        <div class="table-wrap">
+          <table class="word-table">
+            <thead>
+              <tr><th>Word</th><th>Meaning</th><th>Type</th><th>Transitivity</th><th>Honorific</th><th>Humble</th></tr>
+            </thead>
+            <tbody id="list-body"></tbody>
+          </table>
+        </div>
+        <p class="hint">Click a row to see its full conjugation table.</p>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="table-dialog">
+    <div class="dialog-head">
+      <div id="dialog-title" lang="ja"></div>
+      <button class="btn ghost small" id="dialog-close" type="button" aria-label="Close">✕</button>
+    </div>
+    <div id="dialog-body"></div>
+  </dialog>
+
+  <script src="https://cdn.jsdelivr.net/npm/wanakana@5.3.1/wanakana.min.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/conjugate.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
