@@ -281,8 +281,8 @@
 
     $$(".tab").forEach((t) => t.addEventListener("click", () => {
       $$(".tab").forEach((x) => x.classList.toggle("active", x === t));
-      $("#view-practice").hidden = t.dataset.view !== "practice";
-      $("#view-list").hidden = t.dataset.view !== "list";
+      $$(".view").forEach((v) => { v.hidden = v.id !== "view-" + t.dataset.view; });
+      t.blur();
       if (t.dataset.view === "practice" && !answered) $("#answer").focus();
     }));
 

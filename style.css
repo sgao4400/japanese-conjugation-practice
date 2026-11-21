@@ -187,3 +187,56 @@ dialog::backdrop { background: rgba(20,18,15,.45); }
   .word-table th:nth-child(5), .word-table td:nth-child(5),
   .word-table th:nth-child(6), .word-table td:nth-child(6) { display: none; }
 }
+
+/* ---- Kanji writing ---- */
+.writer { max-width: 720px; margin: 0 auto; text-align: center; padding: 22px 28px 20px; }
+.write-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.w-progress { color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; }
+.seg { display: inline-flex; background: var(--surface-2); padding: 3px; border-radius: 9px; border: 1px solid var(--border); }
+.seg button {
+  border: 0; background: transparent; color: var(--muted); font: inherit; font-size: 13px; font-weight: 500;
+  padding: 4px 12px; border-radius: 6px; cursor: pointer;
+}
+.seg button[lang="ja"] { font-family: var(--jp); }
+.seg button.active { background: var(--surface); color: var(--text); box-shadow: var(--shadow); }
+.w-reading { font: 500 52px/1.25 var(--jp); margin-top: 28px; letter-spacing: .04em; overflow-wrap: anywhere; }
+.w-reading.romaji { font-family: Inter, sans-serif; font-weight: 500; letter-spacing: .01em; }
+.w-meaning { color: var(--muted); font-size: 17px; margin-top: 4px; }
+.w-prompt-actions { margin-top: 24px; }
+.btn kbd { margin-left: 6px; background: rgba(255,255,255,.18); border-color: rgba(255,255,255,.35); color: inherit; }
+.btn.ghost kbd { background: var(--surface-2); border-color: var(--border); }
+
+.w-answer { margin-top: 20px; padding-top: 18px; border-top: 1px dashed var(--border); }
+.w-kanji { font: 500 88px/1.15 var(--jp); color: var(--accent); }
+.w-kana { color: var(--muted); font-size: 15px; margin-top: 2px; }
+.w-answer-actions { display: flex; justify-content: center; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
+
+.stroke-panel { margin-top: 18px; padding: 16px; background: var(--surface-2); border-radius: 12px; }
+.stroke-chars { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; }
+.stroke-cell { width: min(180px, 40vw); aspect-ratio: 1; background: var(--surface); border-radius: 8px; }
+.stroke-cell svg { width: 100%; height: 100%; display: block; }
+.stroke-cell .grid rect { fill: none; stroke: var(--border); stroke-width: .8; }
+.stroke-cell .grid line { stroke: var(--border); stroke-width: .6; stroke-dasharray: 2 2; }
+.stroke-cell .ghost path { fill: none; stroke: var(--border); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.stroke-cell .ink path { fill: none; stroke: var(--text); stroke-width: 3.4; stroke-linecap: round; stroke-linejoin: round; }
+.stroke-cell .ink path.current { stroke: var(--accent); }
+.stroke-cell .nums text { font: 7px Inter, sans-serif; fill: var(--accent); opacity: 0; transition: opacity .15s; }
+.stroke-cell .nums text.on { opacity: .9; }
+.hide-nums .stroke-cell .nums { display: none; }
+.stroke-missing { display: grid; place-items: center; height: 100%; font: 400 90px var(--jp); color: var(--muted); }
+.stroke-status { color: var(--muted); font-size: 13px; margin: 10px 0 6px; min-height: 1.5em; }
+.stroke-controls { display: flex; justify-content: center; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 6px; font-size: 13px; }
+.btn.icon { width: 40px; padding: 6px 0; font-size: 16px; }
+.btn.ff { user-select: none; -webkit-user-select: none; touch-action: none; }
+.btn.ff.held { background: var(--accent); border-color: var(--accent); color: #fff; }
+.stroke-controls label { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); }
+.stroke-controls input[type=range] { accent-color: var(--accent); width: 140px; }
+.stroke-controls input[type=checkbox] { accent-color: var(--accent); margin: 0; }
+.stroke-controls output { font-variant-numeric: tabular-nums; min-width: 3em; text-align: left; color: var(--text); }
+.w-nav { display: flex; justify-content: center; gap: 8px; margin-top: 22px; flex-wrap: wrap; }
+.hint a { color: inherit; }
+@media (max-width: 520px) {
+  .writer { padding: 18px 16px; }
+  .w-reading { font-size: 40px; }
+  .w-kanji { font-size: 68px; }
+}

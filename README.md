@@ -1,6 +1,6 @@
-# 活用 Japanese Conjugation Practice
+# 活用・漢字 Japanese Practice
 
-A small, dependency-free web app for drilling Japanese verb and adjective conjugations, inspired by [jconj](https://baileysnyder.com/jconj/).
+A small, dependency-free web app for drilling Japanese verb and adjective conjugations (inspired by [jconj](https://baileysnyder.com/jconj/)) and practicing writing kanji.
 
 **Use it here:** https://sgao4400.github.io/japanese-conjugation-practice/
 
@@ -22,6 +22,13 @@ A small, dependency-free web app for drilling Japanese verb and adjective conjug
 - **Word list** tab with search and filters; click any word for its full conjugation table
 - Settings and stats are saved in your browser
 
+### Kanji writing tab
+
+- 166 everyday words that are normally written in kanji (229 different characters). **No kanji appears in more than one word**, and homophones / look-alikes (橋・箸, 紙・神 …) are avoided
+- Prompt shows the reading in **katakana or romaji** (toggle) plus the English meaning. Write it on paper, then press **Space** (or the button) to reveal the kanji
+- **Stroke order animation** for every character, with stroke numbers, play / pause / replay, a speed slider (0.25×–3×) and a **hold-to-fast-forward** button
+- `Space` reveal / next · `←` `→` previous / next · Shuffle
+
 ## Running locally
 
 It's a static site — open `index.html` in a browser, or serve the folder:
@@ -37,6 +44,10 @@ python -m http.server 8000
 | `js/data.js` | The word list (furigana markup `{漢字|かな}`, verb class, transitivity, keigo info) |
 | `js/conjugate.js` | Conjugation engine |
 | `js/app.js` | Quiz, word list and conjugation-table UI |
+| `js/kanji-data.js` | Kanji writing word list |
+| `js/writing.js` | Kanji writing tab and stroke-order player |
+| `js/stroke-data.js` | Stroke paths bundled from KanjiVG (generated) |
+| `scripts/build_strokes.py` | Regenerates `stroke-data.js` after editing the kanji list |
 | `style.css` | Styles (light and dark mode) |
 
 ### Adding words
@@ -50,3 +61,13 @@ N("{静|しず}か", "quiet");                                         // な-ad
 ```
 
 See the comment at the top of `js/data.js` for all options.
+
+After changing `js/kanji-data.js`, regenerate the stroke data:
+
+```bash
+python scripts/build_strokes.py
+```
+
+## Credits
+
+Stroke order data from [KanjiVG](https://kanjivg.tagaini.net) © Ulrich Apel, licensed under [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/).
